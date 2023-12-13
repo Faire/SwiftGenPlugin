@@ -41,32 +41,32 @@ struct SwiftGenPlugin: BuildToolPlugin {
   }
 }
 
-#if canImport(XcodeProjectPlugin)
-import XcodeProjectPlugin
-
-extension SwiftGenPlugin: XcodeBuildToolPlugin {
-  func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
-    let fileManager = FileManager.default
-
-    // Possible paths where there may be a config file (root of package, target dir.)
-    let configurations: [Path] = [context.xcodeProject.directory]
-      .map { $0.appending("swiftgen.yml") }
-      .filter { fileManager.fileExists(atPath: $0.string) }
-
-    // Validate paths list
-    guard validate(configurations: configurations, target: target) else {
-      return []
-    }
-
-    // Clear the SwiftGen plugin's directory (in case of dangling files)
-    fileManager.forceClean(directory: context.pluginWorkDirectory)
-
-    return try configurations.map { configuration in
-      try .swiftgen(using: configuration, context: context, target: target)
-    }
-  }
-}
-#endif
+//#if canImport(XcodeProjectPlugin)
+//import XcodeProjectPlugin
+//
+//extension SwiftGenPlugin: XcodeBuildToolPlugin {
+//  func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+//    let fileManager = FileManager.default
+//
+//    // Possible paths where there may be a config file (root of package, target dir.)
+//    let configurations: [Path] = [context.xcodeProject.directory]
+//      .map { $0.appending("swiftgen.yml") }
+//      .filter { fileManager.fileExists(atPath: $0.string) }
+//
+//    // Validate paths list
+//    guard validate(configurations: configurations, target: target) else {
+//      return []
+//    }
+//
+//    // Clear the SwiftGen plugin's directory (in case of dangling files)
+//    fileManager.forceClean(directory: context.pluginWorkDirectory)
+//
+//    return try configurations.map { configuration in
+//      try .swiftgen(using: configuration, context: context, target: target)
+//    }
+//  }
+//}
+//#endif
 
 // MARK: - Helpers
 
