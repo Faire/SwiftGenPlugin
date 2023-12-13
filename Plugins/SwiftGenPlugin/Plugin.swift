@@ -99,7 +99,7 @@ private extension SwiftGenPlugin {
 //    return true
 //  }
 //#endif
-//}
+}
 
 private extension Command {
   static func swiftgen(using configuration: Path, context: PluginContext, target: Target) throws -> Command {
