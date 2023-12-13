@@ -85,21 +85,21 @@ private extension SwiftGenPlugin {
     return true
   }
 
-#if canImport(XcodeProjectPlugin)
-  func validate(configurations: [Path], target: XcodeTarget) -> Bool {
-    guard !configurations.isEmpty else {
-      Diagnostics.error("""
-        No SwiftGen configurations found for target \(target.displayName). If you would like to generate sources for this \
-        target include a `swiftgen.yml` in the target's source directory, or include a shared `swiftgen.yml` at the \
-        package's root.
-        """)
-      return false
-    }
-
-    return true
-  }
-#endif
-}
+//#if canImport(XcodeProjectPlugin)
+//  func validate(configurations: [Path], target: XcodeTarget) -> Bool {
+//    guard !configurations.isEmpty else {
+//      Diagnostics.error("""
+//        No SwiftGen configurations found for target \(target.displayName). If you would like to generate sources for this \
+//        target include a `swiftgen.yml` in the target's source directory, or include a shared `swiftgen.yml` at the \
+//        package's root.
+//        """)
+//      return false
+//    }
+//
+//    return true
+//  }
+//#endif
+//}
 
 private extension Command {
   static func swiftgen(using configuration: Path, context: PluginContext, target: Target) throws -> Command {
@@ -122,26 +122,26 @@ private extension Command {
     )
   }
 
-#if canImport(XcodeProjectPlugin)
-  static func swiftgen(using configuration: Path, context: XcodePluginContext, target: XcodeTarget) throws -> Command {
-    .prebuildCommand(
-      displayName: "SwiftGen BuildTool Plugin",
-      executable: try context.tool(named: "swiftgen").path,
-      arguments: [
-        "config",
-        "run",
-        "--verbose",
-        "--config", "\(configuration)"
-      ],
-      environment: [
-        "PROJECT_DIR": context.xcodeProject.directory,
-        "TARGET_NAME": target.displayName,
-        "DERIVED_SOURCES_DIR": context.pluginWorkDirectory
-      ],
-      outputFilesDirectory: context.pluginWorkDirectory
-    )
-  }
-#endif
+//#if canImport(XcodeProjectPlugin)
+//  static func swiftgen(using configuration: Path, context: XcodePluginContext, target: XcodeTarget) throws -> Command {
+//    .prebuildCommand(
+//      displayName: "SwiftGen BuildTool Plugin",
+//      executable: try context.tool(named: "swiftgen").path,
+//      arguments: [
+//        "config",
+//        "run",
+//        "--verbose",
+//        "--config", "\(configuration)"
+//      ],
+//      environment: [
+//        "PROJECT_DIR": context.xcodeProject.directory,
+//        "TARGET_NAME": target.displayName,
+//        "DERIVED_SOURCES_DIR": context.pluginWorkDirectory
+//      ],
+//      outputFilesDirectory: context.pluginWorkDirectory
+//    )
+//  }
+//#endif
 }
 
 private extension PluginContext {
